@@ -1,0 +1,101 @@
+<div style="display: flex; align-items: center; justify-content: space-between;">
+  <form (ngSubmit)="filterResults()" #filtersForm="ngForm">
+    <table>
+      <tr>
+        <td>
+          <label>Imię</label>
+        </td>
+      <td>
+        <input id="firstName"
+               [(ngModel)]="filters.firstName"
+               name="firstName"
+               #firstName="ngModel"
+               [placeholder]="filters.firstName"
+               value="{{ filters.firstName }}"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label>Nazwisko</label>
+        </td> 
+        <td>       
+          <input id="lastName"
+                 [(ngModel)]="filters.lastName"
+                 name="lastName"
+                 #lastName="ngModel"
+                 [placeholder]="filters.lastName"
+                 value="{{ filters.lastName }}"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label>Zawód</label>
+        </td>
+        <td>
+          <input id="occupation"
+                 [(ngModel)]="filters.occupation"
+                 name="occupation"
+                 #occupation="ngModel"
+                 [placeholder]="filters.occupation"
+                 value="{{ filters.occupation }}"/>
+        </td>
+      </tr>
+    </table>
+    <div mat-dialog-actions>
+      <button color="accent" (click)="resetFilters()">
+        Wyczyść
+      </button>
+      <button type="submit">
+        Wyszukaj
+      </button>
+    </div>
+  </form>
+</div>
+
+<mat-form-field>
+  <mat-label>Sortowanie</mat-label>
+  <mat-select [(value)]="orderBy" (selectionChange)="orderByChanged()">
+    <mat-option>Nie sortuj</mat-option>
+    <mat-option value="firstName">Imię, od A do Z</mat-option>
+    <mat-option value="firstNameDescending">Imię, od Z do A</mat-option>
+    <mat-option value="lastName">Nazwisko, od A do Z</mat-option>
+    <mat-option value="lastNameDescending">Nazwisko, od Z do A</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button class="list-csv-button" 
+        color="error" 
+        type="submit" 
+        (click)="getCsvFile()">
+        Pobierz plik .csv
+</button>
+
+<table>
+  <th>Avatar</th>
+  <th>Imie</th>
+  <th>Nazwisko</th>
+  <th>Zawód</th>
+  <tr *ngFor="let person of peopleArray">
+    <td>
+      <img src="{{person.avatarUrl}}" style="height: 50px; width: 50px;"
+             (click)="openDialog(person)">
+    </td>
+    <td>{{person.firstName}}</td>
+    <td>{{person.lastName}}</td>
+    <td>{{person.occupation}}</td>
+    <td>
+      <button *ngIf="isAdmin()" (click)="removeSelectedItem(person.personId)" class="list-item-icon">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </tr>
+</table>
+
+<mat-paginator [length]="paginationSettings.totalItems"
+               [pageIndex]="0"
+               [pageSize]="10"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageEvent = getPeople($event, filters, orderBy)">
+</mat-paginator>

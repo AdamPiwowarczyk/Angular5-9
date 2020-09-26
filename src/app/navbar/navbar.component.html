@@ -1,0 +1,11 @@
+<div>
+  <button *ngIf="isAdmin()" 
+          (click)="add()">
+    Dodaj
+  </button>
+  
+  <button *ngIf="loggedIn()" 
+          (click)="logout()">
+    Wyloguj
+  </button>
+</div>

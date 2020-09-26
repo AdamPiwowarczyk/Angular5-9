@@ -1,0 +1,35 @@
+<form #personForm="ngForm">
+  <fieldset [disabled]="!isAdmin()" style="border: 0;">
+  <table>
+      <tr>
+          <td><label>Imię</label></td>
+          <td><input required type="text" name="firstName" [(ngModel)] = "personEdit.firstName"></td>
+      </tr>
+      <tr>
+          <td><label>Nazwisko</label></td>
+          <td><input type="text" name="lastName" [(ngModel)] = "personEdit.lastName"></td>
+      </tr>
+      <tr>
+          <td><label>Zawód</label></td>
+          <td><input type="text" name="occupation" [(ngModel)] = "personEdit.occupation"></td>
+      </tr>
+      <tr>
+          <td><label>Avatar</label></td>
+          <td>
+              <select name="avatarUrl" [(ngModel)]="personEdit.avatarUrl">
+                  <option *ngFor="let picture of pictures" value="{{picture.address}}">
+                      {{ picture.name }}
+                  </option>
+              </select>
+          </td>
+      </tr>
+  </table>
+  </fieldset>
+  <br/>
+    <img width="150" height="100" src={{personEdit.avatarUrl}}>
+  <br/>
+
+  <button (click)="onCancel()">Zamknij</button>
+  <button *ngIf="isAdmin()" [disabled]="!personForm.valid" type="submit" [mat-dialog-close]="personEdit">Zapisz</button>
+
+</form>

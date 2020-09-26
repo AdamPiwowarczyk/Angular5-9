@@ -1,0 +1,19 @@
+<h3>Zaloguj</h3>
+  <form (ngSubmit)="submitForm()" #authForm="ngForm">
+    <table>
+        <tr>
+            <td><label>Login</label></td>
+            <td><input type="text" required [(ngModel)]="credentials.login" name="login" #login="ngModel"></td>
+            <div *ngIf="login.invalid && login.dirty">Login jest wymagany</div>
+        </tr>
+        <tr>
+            <td><label>Password</label></td>
+            <td><input type="text" required minlength="2" maxlength="64" 
+                      [(ngModel)]="credentials.password" name="password" type="password" #password="ngModel" ></td>
+            <div *ngIf="password.invalid && password.dirty">Hasło jest wymagane oraz musi mieć od 2 do 64 znaków</div>
+          </tr>
+    </table>
+
+    <button [disabled]="!authForm.valid" type="submit">Zaloguj</button>
+  
+  </form>
